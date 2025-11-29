@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30002.166
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11222.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPCalculator", "BPCalculator\BPCalculator.csproj", "{5966DA6C-819D-4303-ADC7-425B8541EC84}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPUnitTest", "BPUnitTest\BPUnitTest.csproj", "{FAC84803-A989-45B2-AFD7-534FA1230824}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BDDTesting", "BDDTesting\BDDTesting.csproj", "{8730852B-A8A3-49D4-B03F-9B24E68E2C64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{5966DA6C-819D-4303-ADC7-425B8541EC84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5966DA6C-819D-4303-ADC7-425B8541EC84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5966DA6C-819D-4303-ADC7-425B8541EC84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAC84803-A989-45B2-AFD7-534FA1230824}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAC84803-A989-45B2-AFD7-534FA1230824}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAC84803-A989-45B2-AFD7-534FA1230824}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAC84803-A989-45B2-AFD7-534FA1230824}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8730852B-A8A3-49D4-B03F-9B24E68E2C64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8730852B-A8A3-49D4-B03F-9B24E68E2C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8730852B-A8A3-49D4-B03F-9B24E68E2C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8730852B-A8A3-49D4-B03F-9B24E68E2C64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

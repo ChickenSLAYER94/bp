@@ -30,10 +30,29 @@ namespace BPCalculator
         public BPCategory Category
         {
             get
-            {
-                // implement as part of project
-                //throw new NotImplementedException("not implemented yet");
-                return new BPCategory();                       // replace this
+               {
+
+                if (Systolic >= 141 || Diastolic >= 91)
+                {
+                    return BPCategory.High;
+                }
+                else if (Systolic >= 121 || Diastolic >= 81)
+                {
+                    return BPCategory.PreHigh;
+                }
+                else if (Systolic < 90 || Diastolic < 60)
+                {
+                    return BPCategory.Low;
+                }
+                else
+                {
+                    return BPCategory.Ideal;
+                }
+
+
+                //// implement as part of project
+                ////throw new NotImplementedException("not implemented yet");
+                //return new BPCategory();                       // replace this
             }
         }
     }
