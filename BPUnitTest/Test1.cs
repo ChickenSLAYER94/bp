@@ -59,7 +59,7 @@ namespace BPUnitTest
         public void TestMethod7()
         {
             BloodPressure bp = new BloodPressure();
-            bp.Systolic = 90;
+            bp.Systolic = 69;
             Assert.IsGreaterThanOrEqualTo(bp.Systolic, BloodPressure.SystolicMin);
         }
         [TestMethod]
