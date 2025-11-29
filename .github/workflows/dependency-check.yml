@@ -1,0 +1,29 @@
+# OWASP Dependency checker GitHub Action workflow file
+name: OWASP Dependency Checker       
+  
+on:
+  workflow_dispatch:                  # manually triggered
+
+jobs:
+  dependency_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Depcheck
+        uses: dependency-check/Dependency-Check_Action@main
+        id: Depcheck
+        with:
+          project: 'BP'
+          path: '.'
+          format: 'HTML'    
+          args: >
+            --failOnCVSS 8            
+          # if the CVSS score is greater than or equals to 8 (High), the action will fail
+          
+      - name: Upload Test results
+        uses: actions/upload-artifact@v4
+        with:
+           name: Depcheck report
+           path: ${{github.workspace}}/reports
