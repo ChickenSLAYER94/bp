@@ -32,10 +32,22 @@ on:
 #     branches: [ "main" ]
 
 jobs:
-  build:
 
+  build_test:
+    name: build and execute unit & BDD test
     runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build for Release
+      run: dotnet build --configuration Release
+    - name: Run unit tests (Standard)
+      run: dotnet test BPUnitTest/BPUnitTest.csproj --verbosity normal -l:trx
+    - name: Run BDD tests (Renqnroll perviously specflow)
+      run: dotnet test BPUnitTest/BDDTesting.csproj  --verbosity normal -l:trx
 
+
+  build:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
