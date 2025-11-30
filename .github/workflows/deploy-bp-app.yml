@@ -43,7 +43,7 @@ jobs:
     - name: Run unit tests (Standard)
       run: dotnet test BPUnitTest/BPUnitTest.csproj --verbosity normal -l:trx
     - name: Run BDD tests (Renqnroll perviously specflow)
-      run: dotnet test BPUnitTest/BDDTesting.csproj  --verbosity normal -l:trx
+      run: dotnet test BDDTesting/BDDTesting.csproj  --verbosity normal -l:trx
 
   build:
     name: build and deploy app
