@@ -1,0 +1,42 @@
+name: Deploy to Azure
+
+on:
+  workflow_dispatch:  # Manual trigger
+  push:
+    branches:
+      - main
+    paths:
+      - 'main.bicep'
+      - '.github/workflows/deploy-app-azure.yml'
+
+env:
+  RESOURCE_GROUP: Lab1-VStudio
+  LOCATION: francecentral
+  BICEP_FILE: main.bicep
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Create Resource Group (if not exists)
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            az group create \
+              --name ${{ env.RESOURCE_GROUP }} \
+              --location ${{ env.LOCATION }}
+
+      - name: Deploy Bicep Template
+        uses: azure/arm-deploy@v2
+        with:
+          resourceGroupName: ${{ env.RESOURCE_GROUP }}
+          template: ${{ env.BICEP_FILE }}
+          failOnStdErr: false
