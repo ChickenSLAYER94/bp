@@ -45,10 +45,11 @@ jobs:
     - name: Run BDD tests (Renqnroll perviously specflow)
       run: dotnet test BPUnitTest/BDDTesting.csproj  --verbosity normal -l:trx
 
-
   build:
+    name: build and deploy app
+    needs: build_test
     runs-on: ubuntu-latest
-    steps:
+    steps: 
     - uses: actions/checkout@v4
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
@@ -58,8 +59,6 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release
-    # - name: Test
-    #   run: dotnet test BmiLab/BmiLab.csproj --no-restore --collect "Code coverage" -l:trx
 
     - name: Publish
       run: dotnet publish -c Release --property:PublishDir=${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
