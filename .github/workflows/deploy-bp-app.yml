@@ -23,11 +23,13 @@ env:
   AZURE_WEBAPP_NAME: Bp-Calc       
   AZURE_WEBAPP_PACKAGE_PATH: '.' 
 
-on:   
-  push:                            
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on:
+  workflow_dispatch:   
+# on:   
+#   push:                            
+#     branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
 
 jobs:
   build:
