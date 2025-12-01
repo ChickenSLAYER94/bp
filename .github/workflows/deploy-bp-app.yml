@@ -48,11 +48,12 @@ jobs:
   code_analysis:
     needs: build_test
     uses: ./.github/workflows/sonar-code-analysis.yml #execite sonar code analysis in SonarQube Cloud
+    secrets: inherit #this passes secrets to the reusable workflow
 
   dependency_check:
     needs: code_analysis
     uses: ./.github/workflows/dependency-check.yml #execute OWASP Dependency Checker 
-    secrets: inherit #this passes secrets to the reusable workflow
+   
 
   build:
     name: build and deploy app
