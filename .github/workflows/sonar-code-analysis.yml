@@ -1,7 +1,8 @@
 # This is the scan from SonarCloud to analyze code quality
 name: SonarCloud
 on:
-  workflow_dispatch:                             
+  workflow_dispatch:   
+  workflow_call:  # making it reusable workflow
 
 jobs:
   scan_code:

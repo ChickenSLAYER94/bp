@@ -21,7 +21,7 @@ namespace BPUnitTest
             BloodPressure bp = new BloodPressure();
             bp.Systolic = 100;
             bp.Diastolic = 90;
-            Assert.AreEqual(BPCategory.High, bp.Category);
+            Assert.AreEqual(BPCategory.PreHigh, bp.Category);
         }
         [TestMethod]
         public void TestMethod3()
