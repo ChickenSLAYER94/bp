@@ -45,9 +45,17 @@ jobs:
     - name: Run BDD tests (Renqnroll perviously specflow)
       run: dotnet test BDDTesting/BDDTesting.csproj  --verbosity normal -l:trx
 
+  code_analysis:
+    needs: build_test
+    uses: ./.github/workflows/sonar-code-analysis.yml #execite sonar code analysis in SonarQube Cloud
+
+  dependency_check:
+    needs: code_analysis
+    uses: ./.github/workflows/dependency-check.yml #execute OWASP Dependency Checker 
+
   build:
     name: build and deploy app
-    needs: build_test
+    needs: dependency_check
     runs-on: ubuntu-latest
     steps: 
     - uses: actions/checkout@v4
