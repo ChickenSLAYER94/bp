@@ -1,5 +1,5 @@
 # Grafana k6 load test workflow
-name: k6 BMI
+name: BP catogery calculate k6 performance test
 
 on:
   workflow_dispatch:                  # manually triggered
