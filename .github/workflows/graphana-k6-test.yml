@@ -18,10 +18,10 @@ jobs:
       run: docker pull grafana/k6
 
     - name: Run k6 load test 1 and generate report
-      run: docker run -i grafana/k6 run - <k6tests/Performance-test1.js > k6report1.txt
+      run: docker run -i grafana/k6 run - <Grafana-K6/Performance-test1.js > k6report1.txt
 
     - name: Run k6 load test 2 and generate report
-      run: docker run -i grafana/k6 run - <k6tests/Performance-test1.js > k6report2.txt
+      run: docker run -i grafana/k6 run - <Grafana-K6/Performance-test1.js > k6report2.txt
 
 
     - uses: actions/upload-artifact@v4
