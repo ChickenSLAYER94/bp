@@ -11,10 +11,11 @@ export let options = {
   ],
   
  	thresholds: {
-    "http_req_duration": ["p(95) < 300"]
+    "http_req_duration": ["p(95) < 90"]
   },
 
-  // discardResponseBodies: false,
+  // default is false
+  discardResponseBodies: false,
   
   cloud: {
     distribution: {
