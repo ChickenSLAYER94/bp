@@ -27,6 +27,14 @@ export default function () {
   res = http.post(url, {
     BP_Systolic: sys.toString(),
     BP_Diastolic: dia.toString(),
+  }, {
+
+
+headers: {
+  "Content-Type": "application/x-www-form-urlencoded"
+},
+                 
+                 
   });
 
   console.log(`POST status=${res.status}`);
