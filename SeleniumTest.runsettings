@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<RunSettings>    
+  <!-- Parameters used by selenium test during execution -->  
+  <TestRunParameters>  
+    <Parameter name="azureWebAppUrl" value="https://bp-calc.azurewebsites.net/" />  
+  </TestRunParameters>  
+</RunSettings> 
