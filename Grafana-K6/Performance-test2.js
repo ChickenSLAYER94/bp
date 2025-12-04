@@ -2,25 +2,6 @@ import http from "k6/http";
 import { check, sleep } from "k6";
 
 export const options = {
-  stages: [
-    { duration: "1m", target: 10 }, // ramp up
-    { duration: "1m", target: 10 }, // hold
-    { duration: "1m", target: 0 },  // ramp down
-  ],
-  thresholds: {
-    http_req_duration: ["p(95)<500"], // 95% of requests < 500 ms
-  },
-  discardResponseBodies: false,
-};
-
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-import http from "k6/http";
-import { check, sleep } from "k6";
-
-export const options = {
   vus: 1,
   duration: "10s",
   thresholds: {
