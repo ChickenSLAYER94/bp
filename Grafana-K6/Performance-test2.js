@@ -32,27 +32,53 @@ export let options= {
  * @return {number} random int between min and max
  */
 
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
+// function getRandomInt(min, max) {
+//   return Math.floor(Math.random() * (max - min + 1) + min);
+// }
 
-export default function() {
+// export default function() {
  
-  let res = http.get("https://https://bp-calc.azurewebsites.net/", {"responseType": "text"});
+//   let res = http.get("https://https://bp-calc.azurewebsites.net/", {"responseType": "text"});
+
+//   check(res, {
+//     "is status 200": (r) => r.status === 200
+//   });
+
+//   res = res.submitForm({
+//     fields: { BP_Systolic: getRandomInt(190, 70).toString(), BP_Diastolic: getRandomInt(100, 40).toString()}
+//   });
+
+//   check(res, {
+//     "is status 200": (r) => r.status === 200
+//   });
+
+// // sleep for 3 seconds between iterations
+//   sleep(3);
+// }
+
+  // Generate random values
+  const sys = getRandomInt(70, 190);
+  const dia = getRandomInt(40, 100);
+
+  console.log(`Submitting form with Systolic=${sys}, Diastolic=${dia}`);
+
+  // POST form data
+  res = http.post(url, {
+    BP_Systolic: sys.toString(),
+    BP_Diastolic: dia.toString(),
+  });
+
+  console.log(`POST ${url} -> status=${res.status}`);
+
+  // Optional: log a small snippet of the response body
+  if (res.body) {
+    console.log(`Response snippet: ${res.body.substring(0, 200)}`);
+  }
 
   check(res, {
-    "is status 200": (r) => r.status === 200
+    "POST status is 200": (r) => r.status === 200,
   });
 
-  res = res.submitForm({
-    fields: { BP_Systolic: getRandomInt(190, 70).toString(), BP_Diastolic: getRandomInt(100, 40).toString()}
-  });
-
-  check(res, {
-    "is status 200": (r) => r.status === 200
-  });
-
-// sleep for 3 seconds between iterations
   sleep(3);
 }
 
