@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPUnitTest", "BPUnitTest\BP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BDDTesting", "BDDTesting\BDDTesting.csproj", "{8730852B-A8A3-49D4-B03F-9B24E68E2C64}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Grafana-k6", "Grafana-k6", "{C0FFCE5D-B470-4676-AF2C-BC6EBD01F812}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
