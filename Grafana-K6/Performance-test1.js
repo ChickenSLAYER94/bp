@@ -3,9 +3,9 @@ import http from "k6/http";
 
 export let options = {
     stages: [
-        { duration: "2m", target: 30 }, // Ramp-up to 30 users over 2 minutes
-        { duration: "5m", target: 30 }, // Stay at 30 users for 5 minutes
-        { duration: "2m", target: 0 },   // Ramp-down to 0 users over 2 minutes
+        { duration: "1m", target: 35 }, // Ramp-up to 35 users over 1 minutes
+        { duration: "1m", target: 35 }, // Stay at 35 users for 1 minutes
+        { duration: "1m", target: 0 },   // Ramp-down to 0 users over 1 minutes
     ],
     thresholds: {
         http_req_duration: ["p(95)<500"], // 95% of requests should be below 500ms
