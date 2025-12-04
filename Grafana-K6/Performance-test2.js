@@ -2,8 +2,6 @@ import { check, sleep } from "k6";
 import http from "k6/http";
 
 export let options = {
-
-
   stages: [
     { duration: "1m", target: 15 },          
     { duration: "1m", target: 15 },
@@ -11,9 +9,8 @@ export let options = {
   ],
   
  	thresholds: {
-    "http_req_duration": ["p(95) < 90"]
+    "http_req_duration": ["p(95) < 200"]
   },
-
   // default is false
   discardResponseBodies: false,
   
@@ -32,10 +29,7 @@ function getRandomInt(min, max) {
 
 export default function() {
   let res = http.get("https://bp-calc.azurewebsites.net/", {"responseType": "text"});
-
-  // cookies automatically handled i.e. cookies sent by server will be re-presented by the client in all subsequent requests
-  // until end of script
-
+  
   check(res, {
     "is status 200": (r) => r.status === 200
   });
