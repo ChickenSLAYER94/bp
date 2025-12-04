@@ -36,7 +36,7 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-// export default function() {
+export default function() {
  
 //   let res = http.get("https://https://bp-calc.azurewebsites.net/", {"responseType": "text"});
 
@@ -81,4 +81,3 @@ function getRandomInt(min, max) {
 
   sleep(3);
 }
-
