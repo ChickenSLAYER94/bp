@@ -1,7 +1,7 @@
 name: Pen Testing w/ ZAP
 
 env:
-  URI: https://gc-bmicalculator-ga-staging.azurewebsites.net/           
+  URI: https://bp-calc.azurewebsites.net/           
   
 on:
   workflow_dispatch:               
