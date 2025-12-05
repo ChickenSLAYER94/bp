@@ -19,7 +19,7 @@ jobs:
 
     - name: Check for high-severity alerts
       run: |    
-        HIGH_ALERTS=$(sed -n '/<td class="risk-3">/,/<\/tr>/p' /report/zap-report.html | grep -o '<div>[0-9]\+</div>' | tail -1 | grep -o '[0-9]\+'")
+        HIGH_ALERTS=$(sed -n '/<td class="risk-3">/,/<\/tr>/p' /report/zap-report.html | grep -o '<div>[0-9]\+</div>' | tail -1 | grep -o '[0-9]\+')
         echo "High-severity alerts found: $HIGH_ALERTS"
         if [ "$HIGH_ALERTS" -gt 2 ]; then
           echo "Pipeline failed: $HIGH_ALERTS high-severity vulnerabilities detected > 1"
