@@ -1,0 +1,24 @@
+name: Pen Testing w/ ZAP
+
+env:
+  URI: https://bp-calc.azurewebsites.net/           
+  
+on:
+  workflow_dispatch:               
+  workflow_call:  # making it reusable workflow
+  
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Docker image for OWASP ZAP
+      run: docker pull zaproxy/zap-weekly
+
+    - name: Execute baseline scan
+      run: docker run -v /report:/zap/wrk/:rw --user root -t zaproxy/zap-weekly zap-baseline.py -t ${{env.URI}} -I -r zap-report.html
+  
+    - uses: actions/upload-artifact@v4
+      name: upload OWASP ZAP report
+      with:
+        name: OWASP ZAP Report
+        path: /report/zap-report
