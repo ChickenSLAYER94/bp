@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BPUnitTest", "BPUnitTest\BP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BDDTesting", "BDDTesting\BDDTesting.csproj", "{8730852B-A8A3-49D4-B03F-9B24E68E2C64}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Grafana-k6", "Grafana-k6", "{C0FFCE5D-B470-4676-AF2C-BC6EBD01F812}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeleniumTest", "SeleniumTest\SeleniumTest.csproj", "{5CE845D8-1848-4146-8A8A-399FB5599B1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,10 @@ Global
 		{8730852B-A8A3-49D4-B03F-9B24E68E2C64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8730852B-A8A3-49D4-B03F-9B24E68E2C64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8730852B-A8A3-49D4-B03F-9B24E68E2C64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CE845D8-1848-4146-8A8A-399FB5599B1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CE845D8-1848-4146-8A8A-399FB5599B1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CE845D8-1848-4146-8A8A-399FB5599B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CE845D8-1848-4146-8A8A-399FB5599B1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

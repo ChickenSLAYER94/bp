@@ -80,7 +80,25 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}                        # your app name
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }} # Define secret variable in repository settings as per action documentation
         package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+
+      # Chrome & Chrome Driver installation
+    - name: Install Chrome
+      uses: browser-actions/setup-chrome@v1
+    - name: Install ChromeDriver
+      uses: nanasess/setup-chromedriver@v2
+      
+    - name: Run Selenium tests
+      run: dotnet test SeleniumTest/bin/Release/net9.0/SeleniumTest.dll /Settings:SeleniumTest.runsettings --logger:"trx;LogFileName=selenium.trx"
+     # Upload Selenium test results as artifact
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Selenium Tests Output
+        path: '**/TestResults/**/*.trx'
+        
         
   grafana_k6_performance_test:
     needs: build
     uses: ./.github/workflows/grafana-k6-test.yml #execute performance tests using Grafana k6
+
+
+
