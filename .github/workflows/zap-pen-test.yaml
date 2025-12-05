@@ -21,6 +21,7 @@ jobs:
       run: |    
         HIGH_ALERTS=$(grep -o '"risk":"High"' /report/zap-report.html | wc -l)  # This will check the report and if the high risk alerts are greater than 1 it will fail the job
         if [ "$HIGH_ALERTS" -gt 0 ]; then
+          echo "$HIGH_ALERTS"
           exit 1  # This causes the job to fail
         fi
   
