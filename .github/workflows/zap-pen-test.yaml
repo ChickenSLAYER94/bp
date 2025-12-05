@@ -27,9 +27,7 @@ jobs:
         fi
         echo "✅ Scan passed: No high-severity alerts"
         echo "-----------------------------------------"
-        ALERTS=$(grep -c '<td>High</td>' /report/zap-report.html)
-        echo "-----------------------------------------"
-        grep -A1 'risk-3' report.html | tail -1 | sed 's/<[^>]*>//g' | xargs
+        grep -A1 'risk-3' /report/zap-report.html | tail -1 | sed 's/<[^>]*>//g' | xargs
         echo "-----------------------------------------"
         HIG=$(grep -A 1 'class="risk-3"' /report/zap-report.html | grep -o '<div>[0-9]*</div>' | head -1 | grep -o '[0-9]*')
         echo "$HIG"
