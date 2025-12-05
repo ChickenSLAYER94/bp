@@ -25,22 +25,22 @@
             <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-default" />
             </div>
-            @if (ViewData.ModelState.IsValid)
+           @* @if (ViewData.ModelState.IsValid)
             {
                 <div class="form-group">
                     @Html.DisplayFor(model => model.BP.Category, new { htmlAttributes = new { @class = "form-control" } })
                 </div>
-            }
+            } *@
             @if (Request.Method == "POST")
             {
                 <div>
-                    @Html.DisplayNameFor(m => m.BP.Category)
+                    @* @Html.DisplayNameFor(m => m.BP.Category) *@
                     <span id="Bp-Calc-Output">@Html.DisplayFor(m => m.BP.Category)</span>
                 </div>
-                <div>
+                @* <div>
                     @Html.DisplayNameFor(m => m.BP.Category)
                     @Html.DisplayFor(m => m.BP.Category)
-                </div>
+                </div> *@
             }
         </form>
     </div>
