@@ -19,7 +19,7 @@ namespace SeleniumTest
             set { testContextInstance = value; }
         }
 
-        private String azureWebAppUrl;
+        private string azureWebAppUrl;
 
         [TestInitialize]
         public void TestInitialize()
