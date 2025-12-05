@@ -27,7 +27,7 @@ jobs:
         fi
         echo "✅ Scan passed: No high-severity alerts"
         echo "-----------------------------------------"
-        sed -n '/<td class="risk-2">/,/<\/tr>/p' zap-report.html | grep -o '<div>[0-9]\+</div>' | tail -1 | grep -o '[0-9]\+'
+        sed -n '/<td class="risk-2">/,/<\/tr>/p' /report/zap-report.html | grep -o '<div>[0-9]\+</div>' | tail -1 | grep -o '[0-9]\+'
         echo "-----------------------------------------"
         
   
