@@ -57,7 +57,7 @@ jobs:
 
   build:
     name: build and deploy app
-    # needs: dependency_check
+    needs: dependency_check
     runs-on: ubuntu-latest
     steps: 
     - uses: actions/checkout@v4
