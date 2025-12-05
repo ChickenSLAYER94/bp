@@ -21,4 +21,4 @@ jobs:
       name: upload OWASP ZAP report
       with:
         name: OWASP ZAP Report
-        path: /report/zap-report
+        path: /report/zap-report.html
