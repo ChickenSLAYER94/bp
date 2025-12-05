@@ -95,7 +95,7 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: Selenium Tests Output
-        path: SeleniumTest/TestResults/selenium.trx
+        path: SeleniumTest/bin/Release/net9.0/TestResults/selenium.trx
         
         
   # grafana_k6_performance_test:
