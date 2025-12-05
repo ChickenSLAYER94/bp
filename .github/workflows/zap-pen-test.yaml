@@ -16,9 +16,20 @@ jobs:
 
     - name: Execute baseline scan
       run: docker run -v /report:/zap/wrk/:rw --user root -t zaproxy/zap-weekly zap-baseline.py -t ${{env.URI}} -I -r zap-report.html
+
+    - name: Check for high-severity alerts
+      run: |    
+        HIGH_ALERTS=$(sed -n '/<td class="risk-3">/,/<\/tr>/p' /report/zap-report.html | grep -o '<div>[0-9]\+</div>' | tail -1 | grep -o '[0-9]\+')
+        echo "High-severity alerts found: $HIGH_ALERTS"
+        if [ "$HIGH_ALERTS" -gt 2 ]; then
+          echo "Pipeline failed: $HIGH_ALERTS high-severity vulnerabilities detected > 1"
+          exit 1
+        fi
+        echo "Scan passed: No high-severity alerts more than 1"
   
     - uses: actions/upload-artifact@v4
+      if: always()  # Upload the report even if the check above failed
       name: upload OWASP ZAP report
       with:
         name: OWASP ZAP Report
-        path: /report/zap-report
+        path: /report/zap-report.html
