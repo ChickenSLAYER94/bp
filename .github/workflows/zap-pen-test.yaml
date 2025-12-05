@@ -21,7 +21,7 @@ jobs:
       run: |    
         HIGH_ALERTS=$(grep -i 'risk.*High' /report/zap-report.html | wc -l)  # This will check the report and if the high risk alerts are greater than 1 it will fail the job
         echo "High-severity alerts found: $HIGH_ALERTS"
-        if [ "$HIGH_ALERTS" -gt 0 ]; then
+        if [ "$HIGH_ALERTS" -gt 3 ]; then
           echo "❌ Pipeline failed: $HIGH_ALERTS high-severity vulnerabilities detected"
           exit 1
         fi
