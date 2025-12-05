@@ -26,6 +26,9 @@ jobs:
           exit 1
         fi
         echo "✅ Scan passed: No high-severity alerts"
+        grep -i -C 2 'high' /report/zap-report.html | head -20
+        ALERTS=$(grep -c '<td>High</td>' /report/zap-report.html)
+        echo "ALERTS"
   
     - uses: actions/upload-artifact@v4
       if: always()  # Upload the report even if the check above failed
