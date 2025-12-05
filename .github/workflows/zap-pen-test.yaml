@@ -25,7 +25,7 @@ jobs:
           echo "Pipeline failed: $HIGH_ALERTS high-severity vulnerabilities detected > 1"
           exit 1
         fi
-        echo "Scan passed: No high-severity alerts > 1"
+        echo "Scan passed: No high-severity alerts more than 1"
   
     - uses: actions/upload-artifact@v4
       if: always()  # Upload the report even if the check above failed
