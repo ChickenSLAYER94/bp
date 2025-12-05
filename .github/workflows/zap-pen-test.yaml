@@ -19,11 +19,13 @@ jobs:
 
     - name: Check for high-severity alerts
       run: |    
-        HIGH_ALERTS=$(grep -o '"risk":"High"' /report/zap-report.html | wc -l)  # This will check the report and if the high risk alerts are greater than 1 it will fail the job
+        HIGH_ALERTS=$(grep -i 'risk.*High' /report/zap-report.html | wc -l)  # This will check the report and if the high risk alerts are greater than 1 it will fail the job
+        echo "High-severity alerts found: $HIGH_ALERTS"
         if [ "$HIGH_ALERTS" -gt 0 ]; then
-          echo "$HIGH_ALERTS"
-          exit 1  # This causes the job to fail
+          echo "❌ Pipeline failed: $HIGH_ALERTS high-severity vulnerabilities detected"
+          exit 1
         fi
+        echo "✅ Scan passed: No high-severity alerts"
   
     - uses: actions/upload-artifact@v4
       if: always()  # Upload the report even if the check above failed
