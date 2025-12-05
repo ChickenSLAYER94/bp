@@ -59,7 +59,7 @@ namespace SeleniumTest
 
                 var outputTest = driver.FindElement(By.Id("Bp-Calc-Output")).Text;
 
-                Assert.AreEqual("Ideal", outputTest);
+                Assert.AreEqual("Ideal Blood Pressure", outputTest);
             }
         }
     }
