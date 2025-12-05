@@ -27,15 +27,9 @@ jobs:
         fi
         echo "✅ Scan passed: No high-severity alerts"
         echo "-----------------------------------------"
-        grep -A1 'risk-3' /report/zap-report.html | tail -1 | sed 's/<[^>]*>//g' | xargs
+        sed -n '/<td class="risk-2">/,/<\/tr>/p' zap-report.html | grep -o '<div>[0-9]\+</div>' | tail -1 | grep -o '[0-9]\+'
         echo "-----------------------------------------"
-        HIG=$(grep -A 1 'class="risk-3"' /report/zap-report.html | grep -o '<div>[0-9]*</div>' | head -1 | grep -o '[0-9]*')
-        echo "$HIG"
-        echo "-----------------------------------------"
-        HIGERTS=$(grep -A 3 'class="risk-3"' /report/zap-report.html | grep -oP '>\K\d+(?=<)' | head -1)
-        echo "$HIGERTS"
-        echo "-----------------------------------------"
-        echo "ALERTS"
+        
   
     - uses: actions/upload-artifact@v4
       if: always()  # Upload the report even if the check above failed
