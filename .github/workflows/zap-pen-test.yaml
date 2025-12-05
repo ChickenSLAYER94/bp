@@ -20,7 +20,7 @@ jobs:
     - name: Check for high-severity alerts
       run: |    
         HIGH_ALERTS=$(grep -o '"risk":"High"' /report/zap-report.html | wc -l)  # This will check the report and if the high risk alerts are greater than 1 it will fail the job
-        if [ "$HIGH_ALERTS" -gt 1 ]; then
+        if [ "$HIGH_ALERTS" -gt 0 ]; then
           exit 1  # This causes the job to fail
         fi
   
