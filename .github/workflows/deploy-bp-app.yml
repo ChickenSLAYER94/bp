@@ -81,12 +81,13 @@ jobs:
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }} # Define secret variable in repository settings as per action documentation
         package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
 
-      # Execute Selenium tests
+      # Execute tests
     - name: Run Selenium tests
-      run: ls BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      run: ls SeleniumTest/bin/Release/net9.0/
       
     - name: Run Selenium tests
-      run: dotnet test ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/SeleniumTest.dll /Settings:SeleniumTest.runsettings --logger:"trx;LogFileName=selenium.trx"
+      
+      run: dotnet test SeleniumTest/bin/Release/net9.0/SeleniumTest.dll /Settings:SeleniumTest.runsettings --logger:"trx;LogFileName=selenium.trx"
     
      # Upload Selenium test results as artifact
     - uses: actions/upload-artifact@v4
