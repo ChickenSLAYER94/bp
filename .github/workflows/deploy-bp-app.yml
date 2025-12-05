@@ -33,26 +33,26 @@ on:
 
 jobs:
 
-  # build_test:
-  #   name: build and execute unit & BDD test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - name: Build for Release
-  #     run: dotnet build --configuration Release
-  #   - name: Run unit tests (Standard)
-  #     run: dotnet test BPUnitTest/BPUnitTest.csproj --verbosity normal -l:trx
-  #   - name: Run BDD tests (Renqnroll perviously specflow)
-  #     run: dotnet test BDDTesting/BDDTesting.csproj  --verbosity normal -l:trx
+  build_test:
+    name: build and execute unit & BDD test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build for Release
+      run: dotnet build --configuration Release
+    - name: Run unit tests (Standard)
+      run: dotnet test BPUnitTest/BPUnitTest.csproj --verbosity normal -l:trx
+    - name: Run BDD tests (Renqnroll perviously specflow)
+      run: dotnet test BDDTesting/BDDTesting.csproj  --verbosity normal -l:trx
 
-  # code_analysis:
-  #   needs: build_test
-  #   uses: ./.github/workflows/sonar-code-analysis.yml #execite sonar code analysis in SonarQube Cloud
-  #   secrets: inherit #this passes secrets to the reusable workflow
+  code_analysis:
+    needs: build_test
+    uses: ./.github/workflows/sonar-code-analysis.yml #execite sonar code analysis in SonarQube Cloud
+    secrets: inherit #this passes secrets to the reusable workflow
 
-  # dependency_check:
-  #   needs: code_analysis
-  #   uses: ./.github/workflows/dependency-check.yml #execute OWASP Dependency Checker 
+  dependency_check:
+    needs: code_analysis
+    uses: ./.github/workflows/dependency-check.yml #execute OWASP Dependency Checker 
    
 
   build:
@@ -84,13 +84,11 @@ jobs:
       # Chrome & Chrome Driver installation
     - name: Install Chrome
       uses: browser-actions/setup-chrome@v1
-
     - name: Install ChromeDriver
       uses: nanasess/setup-chromedriver@v2
       
     - name: Run Selenium tests
       run: dotnet test SeleniumTest/bin/Release/net9.0/SeleniumTest.dll /Settings:SeleniumTest.runsettings --logger:"trx;LogFileName=selenium.trx"
-    
      # Upload Selenium test results as artifact
     - uses: actions/upload-artifact@v4
       with:
@@ -98,10 +96,9 @@ jobs:
         path: '**/TestResults/**/*.trx'
         
         
-  # grafana_k6_performance_test:
-  #   needs: build
-  #   uses: ./.github/workflows/grafana-k6-test.yml #execute performance tests using Grafana k6
+  grafana_k6_performance_test:
+    needs: build
+    uses: ./.github/workflows/grafana-k6-test.yml #execute performance tests using Grafana k6
 
-    # Execute Selenium tests
 
 
