@@ -33,94 +33,95 @@ on:
 #     branches: [ "main" ]
 
 jobs:
-  # create_webapp:
-  #   uses: ./.github/workflows/deploy-app-azure.yml
-  #   secrets: inherit #this passes secrets to the reusable workflow
+  create_webapp:
+    uses: ./.github/workflows/deploy-app-azure.yml
+    secrets: inherit #this passes secrets to the reusable workflow
 
+  build_test:
+    name: build and execute unit & BDD test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build for Release
+      run: dotnet build --configuration Release
+    - name: Run unit tests (Standard)
+      run: dotnet test BPUnitTest/BPUnitTest.csproj --verbosity normal -l:trx
+    - name: Run BDD tests (Renqnroll perviously specflow)
+      run: dotnet test BDDTesting/BDDTesting.csproj  --verbosity normal -l:trx
 
-  # build_test:
-  #   name: build and execute unit & BDD test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - name: Build for Release
-  #     run: dotnet build --configuration Release
-  #   - name: Run unit tests (Standard)
-  #     run: dotnet test BPUnitTest/BPUnitTest.csproj --verbosity normal -l:trx
-  #   - name: Run BDD tests (Renqnroll perviously specflow)
-  #     run: dotnet test BDDTesting/BDDTesting.csproj  --verbosity normal -l:trx
+  code_analysis:
+    needs: [build_test]
+    uses: ./.github/workflows/sonar-code-analysis.yml # execite sonar code analysis in SonarQube Cloud
+    secrets: inherit # this passes secrets to the reusable workflow
 
-  # code_analysis:
-  #   needs: [build_test, create_webapp]
-  #   uses: ./.github/workflows/sonar-code-analysis.yml # execite sonar code analysis in SonarQube Cloud
-  #   secrets: inherit # this passes secrets to the reusable workflow
-
-  # dependency_check:
-  #   needs: [build_test, create_webapp]
-  #   uses: ./.github/workflows/dependency-check.yml # execute OWASP Dependency Checker 
+  dependency_check:
+    needs: [build_test]
+    uses: ./.github/workflows/dependency-check.yml # execute OWASP Dependency Checker 
 
   build:
     name: build and deploy app
-    # needs: [dependency_check, code_analysis]
+    needs: [dependency_check, code_analysis, create_webapp]
     runs-on: ubuntu-latest
     steps: 
-    # - uses: actions/checkout@v4
-    # - name: Setup .NET
-    #   uses: actions/setup-dotnet@v4
-    #   with:
-    #     dotnet-version: 9.0.x
-    # - name: Restore dependencies
-    #   run: dotnet restore
-    # - name: Build
-    #   run: dotnet build --configuration Release
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release
 
-    # - name: Publish
-    #   run: dotnet publish -c Release --property:PublishDir=${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
-
+    - name: Publish
+      run: dotnet publish -c Release --property:PublishDir=${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
     - name: Azure Login
       uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
-    
+            
+    - name: 'Run Azure webapp deploy action using Azure Credentials'
+      uses: azure/webapps-deploy@v3
+      with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+          slot-name: 'staging'  
+          package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}' 
+
+    - name: 'Wait for 1 min after staging deployment'
+      run: sleep(60)
+   
+    # Chrome & Chrome Driver installation
+    - name: Install Chrome
+      uses: browser-actions/setup-chrome@v1
+    - name: Install ChromeDriver
+      uses: nanasess/setup-chromedriver@v2
+      
+    - name: Run Selenium tests
+      run: dotnet test SeleniumTest/bin/Release/net9.0/SeleniumTest.dll /Settings:SeleniumTest.runsettings --logger:"trx;LogFileName=selenium.trx"
+    #  Upload Selenium test results as artifact
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Selenium Tests Output
+        path: '**/TestResults/**/*.trx'
         
-    # - name: 'Run Azure webapp deploy action using Azure Credentials'
-    #   uses: azure/webapps-deploy@v3
-    #   with: 
-    #       app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
-    #       slot-name: 'staging'  
-    #       package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+  grafana_k6_performance_test:
+    needs: build
+    uses: ./.github/workflows/grafana-k6-test.yml # execute performance tests using Grafana k6
 
-
+  full-deployment:
+    name: 'Swap staging and production slots'
+    needs: grafana_k6_performance_test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
 
     - name: Swap staging and production slots
       run: |
         az webapp deployment slot swap --name bp-calc-personal-acc --resource-group Lab1-VStudio --slot staging --target-slot production
-    
-    # - name: Deploy to Azure Web App (staging slot)
-    #   uses: azure/webapps-deploy@v2
-    #   with:
-    #     app-name: ${{ env.AZURE_WEBAPP_NAME }}
-    #     slot-name: 'staging'      
-    #     package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
-
-   
-  #   # Chrome & Chrome Driver installation
-  #   - name: Install Chrome
-  #     uses: browser-actions/setup-chrome@v1
-  #   - name: Install ChromeDriver
-  #     uses: nanasess/setup-chromedriver@v2
+       
       
-  #   - name: Run Selenium tests
-  #     run: dotnet test SeleniumTest/bin/Release/net9.0/SeleniumTest.dll /Settings:SeleniumTest.runsettings --logger:"trx;LogFileName=selenium.trx"
-  #   #  Upload Selenium test results as artifact
-  #   - uses: actions/upload-artifact@v4
-  #     with:
-  #       name: Selenium Tests Output
-  #       path: '**/TestResults/**/*.trx'
-        
-        
-  # grafana_k6_performance_test:
-  #   needs: build
-  #   uses: ./.github/workflows/grafana-k6-test.yml # execute performance tests using Grafana k6
+
