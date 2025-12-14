@@ -65,18 +65,18 @@ jobs:
     # needs: [dependency_check, code_analysis]
     runs-on: ubuntu-latest
     steps: 
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release
+    # - uses: actions/checkout@v4
+    # - name: Setup .NET
+    #   uses: actions/setup-dotnet@v4
+    #   with:
+    #     dotnet-version: 9.0.x
+    # - name: Restore dependencies
+    #   run: dotnet restore
+    # - name: Build
+    #   run: dotnet build --configuration Release
 
-    - name: Publish
-      run: dotnet publish -c Release --property:PublishDir=${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+    # - name: Publish
+    #   run: dotnet publish -c Release --property:PublishDir=${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
 
 
@@ -85,16 +85,22 @@ jobs:
     #   with:
     #     creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
     
-    - uses: azure/login@v2
-      with:
-          creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
+    # - uses: azure/login@v2
+    #   with:
+    #       creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
         
-    - name: 'Run Azure webapp deploy action using Azure Credentials'
-      uses: azure/webapps-deploy@v3
-      with: 
-          app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
-          slot-name: 'staging'  
-          package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+    # - name: 'Run Azure webapp deploy action using Azure Credentials'
+    #   uses: azure/webapps-deploy@v3
+    #   with: 
+    #       app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+    #       slot-name: 'staging'  
+    #       package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+
+
+
+    - name: Swap staging and production slots
+      run: |
+        az webapp deployment slot swap --name bp-calc-personal-acc resource-group Lab1-VStudio --slot staging --target-slot production
     
     # - name: Deploy to Azure Web App (staging slot)
     #   uses: azure/webapps-deploy@v2
