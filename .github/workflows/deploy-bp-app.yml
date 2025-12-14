@@ -33,9 +33,9 @@ on:
 #     branches: [ "main" ]
 
 jobs:
-  create_webapp:
-    uses: ./.github/workflows/deploy-app-azure.yml
-    secrets: inherit #this passes secrets to the reusable workflow
+  # create_webapp:
+  #   uses: ./.github/workflows/deploy-app-azure.yml
+  #   secrets: inherit #this passes secrets to the reusable workflow
 
 
   # build_test:
@@ -61,7 +61,6 @@ jobs:
 
   build:
     name: build and deploy app
-    needs: create_webapp
     # needs: [dependency_check, code_analysis]
     runs-on: ubuntu-latest
     steps: 
@@ -80,14 +79,11 @@ jobs:
 
 
 
-    # - name: Azure Login
-    #   uses: azure/login@v2
-    #   with:
-    #     creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
     
-    # - uses: azure/login@v2
-    #   with:
-    #       creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
         
     # - name: 'Run Azure webapp deploy action using Azure Credentials'
     #   uses: azure/webapps-deploy@v3
