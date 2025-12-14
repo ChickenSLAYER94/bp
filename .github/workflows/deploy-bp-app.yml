@@ -74,6 +74,9 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release
 
+    - name: folder0
+      run: ls BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}; echo "0--------------"; ls BPCalculator/;  echo "0--------------"; ls
+
     - name: Publish
       run: dotnet publish -c Release --property:PublishDir=${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
