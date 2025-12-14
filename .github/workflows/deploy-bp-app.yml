@@ -79,21 +79,21 @@ jobs:
 
 
 
-    - name: Azure Login
-      uses: azure/login@v2
+    # - name: Azure Login
+    #   uses: azure/login@v2
+    #   with:
+    #     creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
+
+    - uses: actions/checkout@main
+    - uses: azure/login@v2
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
-
-    - name: teststag
-      run: az functionapp deployment slot list --name "bp-calc-personal-acc" --resource-group "Lab1-VStudio"
-
-    - name: testsubscription
-      if: always()  
-      run: az account set --subscription Pay-As-You-Go
-
-    - name: teststag2
-      if: always()  
-      run: az functionapp deployment slot list --name "bp-calc-personal-acc" --resource-group "Lab1-VStudio"
+          creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
+        
+    - name: 'Run Azure webapp deploy action using Azure Credentials'
+      uses: azure/webapps-deploy@v3
+      with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+          package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
     
     # - name: Deploy to Azure Web App (staging slot)
     #   uses: azure/webapps-deploy@v2
