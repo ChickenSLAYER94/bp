@@ -33,9 +33,9 @@ on:
 #     branches: [ "main" ]
 
 jobs:
-  # create_webapp:
-  #   uses: ./.github/workflows/deploy-app-azure.yml
-  #   secrets: inherit #this passes secrets to the reusable workflow
+  create_webapp:
+    uses: ./.github/workflows/deploy-app-azure.yml
+    secrets: inherit #this passes secrets to the reusable workflow
 
 
   # build_test:
@@ -61,6 +61,7 @@ jobs:
 
   build:
     name: build and deploy app
+    needs: create_webapp
     # needs: [dependency_check, code_analysis]
     runs-on: ubuntu-latest
     steps: 
