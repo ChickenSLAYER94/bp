@@ -96,7 +96,7 @@ jobs:
 
     - name: Swap staging and production slots
       run: |
-        az webapp deployment slot swap --name bp-calc-personal-acc resource-group Lab1-VStudio --slot staging --target-slot production
+        az webapp deployment slot swap --name bp-calc-personal-acc --resource-group Lab1-VStudio --slot staging --target-slot production
     
     # - name: Deploy to Azure Web App (staging slot)
     #   uses: azure/webapps-deploy@v2
