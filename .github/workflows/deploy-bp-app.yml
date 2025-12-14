@@ -21,7 +21,7 @@ name: .Net app to an Azure Web App
 
 env:
   AZURE_WEBAPP_NAME: bp-calc-personal-acc       
-  AZURE_WEBAPP_PACKAGE_PATH: '.' 
+  AZURE_WEBAPP_PACKAGE_PATH: 'publish' 
 
 on:
   workflow_dispatch:  
@@ -89,8 +89,8 @@ jobs:
         slot-name: 'staging'      
         package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
 
-
-
+    - name: folder
+      run: ls BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}; ls BPCalculator/; ls
     # Chrome & Chrome Driver installation
     - name: Install Chrome
       uses: browser-actions/setup-chrome@v1
