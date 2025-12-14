@@ -27,6 +27,12 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
 
+      - name: Move to correct subscription
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            az account set --subscription Pay-As-You-Go
+
       - name: Create Resource Group (if not exists)
         uses: azure/cli@v2
         with:
