@@ -5,7 +5,7 @@ param webAppName string = 'bp-calc-personal-acc'
 param location string = resourceGroup().location
 
 @description('The SKU of App Service Plan (F1 = Free, B1 = Basic, S1 = Standard, P1v3 = Premium v3)')
-param sku string = 'S1'
+param sku string = 'P0V3'
 
 @description('.NET version')
 param dotnetVersion string = '9.0'
