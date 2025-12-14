@@ -26,7 +26,7 @@ namespace SeleniumTest
         {
             // Get the Azure Web App URL from the test context
             // this.azureWebAppUrl = testContextInstance.Properties["azureWebAppUrl"]?.ToString();
-            this.azureWebAppUrl = "https://bp-calc.azurewebsites.net/";
+            this.azureWebAppUrl = "https://bp-calc-personal-acc-staging.azurewebsites.net/";
         }
 
         [TestMethod]
