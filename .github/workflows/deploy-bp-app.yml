@@ -83,7 +83,7 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
 
     - name: folder
-      run: ls BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}; ls BPCalculator/; ls
+      run: ls BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}; echo "0--------------"; ls BPCalculator/;  echo "0--------------"; ls
     
     
   #   - name: Deploy to Azure Web App (staging slot)
