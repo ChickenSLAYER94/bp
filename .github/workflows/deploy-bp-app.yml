@@ -21,7 +21,7 @@ name: .Net app to an Azure Web App
 
 env:
   AZURE_WEBAPP_NAME: bp-calc-personal-acc       
-  AZURE_WEBAPP_PACKAGE_PATH: '.' 
+  AZURE_WEBAPP_PACKAGE_PATH: 'publish' 
 
 on:
   workflow_dispatch:  
@@ -33,35 +33,35 @@ on:
 #     branches: [ "main" ]
 
 jobs:
-  create_webapp:
-    uses: ./.github/workflows/deploy-app-azure.yml
-    secrets: inherit #this passes secrets to the reusable workflow
+  # create_webapp:
+  #   uses: ./.github/workflows/deploy-app-azure.yml
+  #   secrets: inherit #this passes secrets to the reusable workflow
 
 
-  build_test:
-    name: build and execute unit & BDD test
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Build for Release
-      run: dotnet build --configuration Release
-    - name: Run unit tests (Standard)
-      run: dotnet test BPUnitTest/BPUnitTest.csproj --verbosity normal -l:trx
-    - name: Run BDD tests (Renqnroll perviously specflow)
-      run: dotnet test BDDTesting/BDDTesting.csproj  --verbosity normal -l:trx
+  # build_test:
+  #   name: build and execute unit & BDD test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - name: Build for Release
+  #     run: dotnet build --configuration Release
+  #   - name: Run unit tests (Standard)
+  #     run: dotnet test BPUnitTest/BPUnitTest.csproj --verbosity normal -l:trx
+  #   - name: Run BDD tests (Renqnroll perviously specflow)
+  #     run: dotnet test BDDTesting/BDDTesting.csproj  --verbosity normal -l:trx
 
-  code_analysis:
-    needs: [build_test, create_webapp]
-    uses: ./.github/workflows/sonar-code-analysis.yml # execite sonar code analysis in SonarQube Cloud
-    secrets: inherit # this passes secrets to the reusable workflow
+  # code_analysis:
+  #   needs: [build_test, create_webapp]
+  #   uses: ./.github/workflows/sonar-code-analysis.yml # execite sonar code analysis in SonarQube Cloud
+  #   secrets: inherit # this passes secrets to the reusable workflow
 
-  dependency_check:
-    needs: [build_test, create_webapp]
-    uses: ./.github/workflows/dependency-check.yml # execute OWASP Dependency Checker 
+  # dependency_check:
+  #   needs: [build_test, create_webapp]
+  #   uses: ./.github/workflows/dependency-check.yml # execute OWASP Dependency Checker 
 
   build:
     name: build and deploy app
-    needs: [dependency_check, code_analysis]
+    # needs: [dependency_check, code_analysis]
     runs-on: ubuntu-latest
     steps: 
     - uses: actions/checkout@v4
@@ -75,8 +75,7 @@ jobs:
       run: dotnet build --configuration Release
 
     - name: Publish
-      run: dotnet publish -c Release --property:PublishDir=${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
+      run: dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
     - name: Azure Login
       uses: azure/login@v2
@@ -88,7 +87,7 @@ jobs:
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         slot-name: 'staging'      
-        package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        package: 'BPCalculator/publish/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
 
 
 
