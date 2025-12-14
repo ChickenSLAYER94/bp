@@ -1,5 +1,5 @@
 @description('Name of the web application')
-param webAppName string = 'Bp-Calc-Personal-Acc'
+param webAppName string = 'bp-calc-personal-acc'
 
 @description('Location for all resources')
 param location string = resourceGroup().location
