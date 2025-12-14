@@ -87,7 +87,7 @@ jobs:
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         slot-name: 'staging'      
-        package: 'BPCalculator/publish/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
 
 
 
