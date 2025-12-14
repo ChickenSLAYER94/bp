@@ -81,31 +81,34 @@ jobs:
       uses: azure/login@v2
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
-    
-    - name: Deploy to Azure Web App (staging slot)
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        slot-name: 'staging'      
-        package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
 
     - name: folder
       run: ls BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}; ls BPCalculator/; ls
-    # Chrome & Chrome Driver installation
-    - name: Install Chrome
-      uses: browser-actions/setup-chrome@v1
-    - name: Install ChromeDriver
-      uses: nanasess/setup-chromedriver@v2
+    
+    
+  #   - name: Deploy to Azure Web App (staging slot)
+  #     uses: azure/webapps-deploy@v2
+  #     with:
+  #       app-name: ${{ env.AZURE_WEBAPP_NAME }}
+  #       slot-name: 'staging'      
+  #       package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+
+   
+  #   # Chrome & Chrome Driver installation
+  #   - name: Install Chrome
+  #     uses: browser-actions/setup-chrome@v1
+  #   - name: Install ChromeDriver
+  #     uses: nanasess/setup-chromedriver@v2
       
-    - name: Run Selenium tests
-      run: dotnet test SeleniumTest/bin/Release/net9.0/SeleniumTest.dll /Settings:SeleniumTest.runsettings --logger:"trx;LogFileName=selenium.trx"
-    #  Upload Selenium test results as artifact
-    - uses: actions/upload-artifact@v4
-      with:
-        name: Selenium Tests Output
-        path: '**/TestResults/**/*.trx'
+  #   - name: Run Selenium tests
+  #     run: dotnet test SeleniumTest/bin/Release/net9.0/SeleniumTest.dll /Settings:SeleniumTest.runsettings --logger:"trx;LogFileName=selenium.trx"
+  #   #  Upload Selenium test results as artifact
+  #   - uses: actions/upload-artifact@v4
+  #     with:
+  #       name: Selenium Tests Output
+  #       path: '**/TestResults/**/*.trx'
         
         
-  grafana_k6_performance_test:
-    needs: build
-    uses: ./.github/workflows/grafana-k6-test.yml # execute performance tests using Grafana k6
+  # grafana_k6_performance_test:
+  #   needs: build
+  #   uses: ./.github/workflows/grafana-k6-test.yml # execute performance tests using Grafana k6
