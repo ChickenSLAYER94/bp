@@ -34,7 +34,7 @@ on:
 
 jobs:
   create_webapp:
-    uses: ./.github/workflows/deploy-bp-app.yml
+    uses: ./.github/workflows/deploy-app-azure.yml
     secrets: inherit #this passes secrets to the reusable workflow
 
 
