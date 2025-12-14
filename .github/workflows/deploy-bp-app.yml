@@ -89,7 +89,7 @@ jobs:
           package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}' 
 
     - name: 'Wait for 1 min after staging deployment'
-      run: sleep(60)
+      run: sleep 60
    
     # Chrome & Chrome Driver installation
     - name: Install Chrome
