@@ -24,7 +24,7 @@ jobs:
       - name: Azure Login
         uses: azure/login@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
 
       - name: Create Resource Group (if not exists)
         uses: azure/cli@v2

@@ -24,7 +24,8 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: '.' 
 
 on:
-  workflow_dispatch:   
+  workflow_dispatch:  
+  workflow_call:  # making it reusable workflow 
 # on:   
 #   push:                            
 #     branches: [ "main" ]
@@ -33,16 +34,8 @@ on:
 
 jobs:
   create_webapp:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }} 
-
-    - run: |
-        az account list
-
-
+    uses: ./.github/workflows/deploy-bp-app.yml
+    secrets: inherit #this passes secrets to the reusable workflow
 
 
 #   build_test:
