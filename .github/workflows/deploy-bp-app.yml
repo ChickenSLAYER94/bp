@@ -83,8 +83,7 @@ jobs:
     #   uses: azure/login@v2
     #   with:
     #     creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
-
-    - uses: actions/checkout@main
+    
     - uses: azure/login@v2
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
