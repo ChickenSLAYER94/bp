@@ -51,12 +51,12 @@ jobs:
       run: dotnet test BDDTesting/BDDTesting.csproj  --verbosity normal -l:trx
 
   code_analysis:
-    needs: build_test
+    needs: [build_test, create_webapp]
     uses: ./.github/workflows/sonar-code-analysis.yml # execite sonar code analysis in SonarQube Cloud
     secrets: inherit # this passes secrets to the reusable workflow
 
   dependency_check:
-    needs: build_test
+    needs: [build_test, create_webapp]
     uses: ./.github/workflows/dependency-check.yml # execute OWASP Dependency Checker 
 
   build:
