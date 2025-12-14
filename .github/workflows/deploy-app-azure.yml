@@ -2,6 +2,7 @@ name: Deploy to Azure
 
 on:
   workflow_dispatch:  # Manual trigger
+  workflow_call:  # making it reusable workflow 
   push:
     branches:
       - main
