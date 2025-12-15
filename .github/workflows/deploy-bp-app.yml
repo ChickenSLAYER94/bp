@@ -20,11 +20,12 @@
 name: .Net app to an Azure Web App
 
 env:
-  AZURE_WEBAPP_NAME: Bp-Calc       
-  AZURE_WEBAPP_PACKAGE_PATH: '.' 
+  AZURE_WEBAPP_NAME: bp-calc-personal-acc       
+  AZURE_WEBAPP_PACKAGE_PATH: 'publish' 
 
 on:
-  workflow_dispatch:   
+  workflow_dispatch:  
+
 # on:   
 #   push:                            
 #     branches: [ "main" ]
@@ -32,6 +33,9 @@ on:
 #     branches: [ "main" ]
 
 jobs:
+  create_webapp:
+    uses: ./.github/workflows/deploy-app-azure.yml
+    secrets: inherit #this passes secrets to the reusable workflow
 
   build_test:
     name: build and execute unit & BDD test
@@ -46,18 +50,17 @@ jobs:
       run: dotnet test BDDTesting/BDDTesting.csproj  --verbosity normal -l:trx
 
   code_analysis:
-    needs: build_test
-    uses: ./.github/workflows/sonar-code-analysis.yml #execite sonar code analysis in SonarQube Cloud
-    secrets: inherit #this passes secrets to the reusable workflow
+    needs: [build_test]
+    uses: ./.github/workflows/sonar-code-analysis.yml # execite sonar code analysis in SonarQube Cloud
+    secrets: inherit # this passes secrets to the reusable workflow
 
   dependency_check:
-    needs: code_analysis
-    uses: ./.github/workflows/dependency-check.yml #execute OWASP Dependency Checker 
-   
+    needs: [build_test]
+    uses: ./.github/workflows/dependency-check.yml # execute OWASP Dependency Checker 
 
   build:
     name: build and deploy app
-    needs: dependency_check
+    needs: [dependency_check, code_analysis, create_webapp]
     runs-on: ubuntu-latest
     steps: 
     - uses: actions/checkout@v4
@@ -72,16 +75,23 @@ jobs:
 
     - name: Publish
       run: dotnet publish -c Release --property:PublishDir=${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-      
-# Deploy to Azure Web apps
-    - name: Run Azure webapp deploy action using publish profile credentials
-      uses: azure/webapps-deploy@v2
-      with: 
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}                        # your app name
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }} # Define secret variable in repository settings as per action documentation
-        package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
 
-      # Chrome & Chrome Driver installation
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
+            
+    - name: 'Run Azure webapp deploy action using Azure Credentials'
+      uses: azure/webapps-deploy@v3
+      with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+          slot-name: 'staging'  
+          package: 'BPCalculator/${{ env.AZURE_WEBAPP_PACKAGE_PATH }}' 
+
+    - name: 'Wait for 1 min after staging deployment'
+      run: sleep 60
+   
+    # Chrome & Chrome Driver installation
     - name: Install Chrome
       uses: browser-actions/setup-chrome@v1
     - name: Install ChromeDriver
@@ -89,16 +99,33 @@ jobs:
       
     - name: Run Selenium tests
       run: dotnet test SeleniumTest/bin/Release/net9.0/SeleniumTest.dll /Settings:SeleniumTest.runsettings --logger:"trx;LogFileName=selenium.trx"
-     # Upload Selenium test results as artifact
+    #  Upload Selenium test results as artifact
     - uses: actions/upload-artifact@v4
       with:
         name: Selenium Tests Output
         path: '**/TestResults/**/*.trx'
         
-        
   grafana_k6_performance_test:
     needs: build
-    uses: ./.github/workflows/grafana-k6-test.yml #execute performance tests using Grafana k6
+    uses: ./.github/workflows/grafana-k6-test.yml # execute performance tests using Grafana k6
 
+  pen-test-with-zap:
+   needs: build
+   uses: ./.github/workflows/zap-pen-test.yaml  # execute pen testing w/ ZAP
 
+  full-deployment:
+    name: 'Swap staging and production slots'
+    needs: [grafana_k6_performance_test, pen-test-with-zap]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Azure Login
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_PERSONAL_ACCOUNT }}
+
+    - name: Swap staging and production slots
+      run: |
+        az webapp deployment slot swap --name bp-calc-personal-acc --resource-group Lab1-VStudio --slot staging --target-slot production
+       
+      
 

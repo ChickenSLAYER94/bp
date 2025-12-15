@@ -1,7 +1,7 @@
 name: Pen Testing w/ ZAP
 
 env:
-  URI: https://bp-calc.azurewebsites.net/           
+  URI: https://bp-calc-personal-acc-staging.azurewebsites.net/           
   
 on:
   workflow_dispatch:               
