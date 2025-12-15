@@ -109,9 +109,13 @@ jobs:
     needs: build
     uses: ./.github/workflows/grafana-k6-test.yml # execute performance tests using Grafana k6
 
+  pen-test-with-zap:
+   needs: build
+   uses: ./.github/workflows/zap-pen-test.yaml  # execute pen testing w/ ZAP
+
   full-deployment:
     name: 'Swap staging and production slots'
-    needs: grafana_k6_performance_test
+    needs: [grafana_k6_performance_test, pen-test-with-zap]
     runs-on: ubuntu-latest
     steps:
     - name: Azure Login
