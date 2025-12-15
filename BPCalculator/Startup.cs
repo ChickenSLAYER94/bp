@@ -24,13 +24,6 @@ namespace BPCalculator
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            // Ensure antiforgery cookie is always Secure
-            services.AddAntiforgery(options =>
-            {
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // only send over HTTPS
-                options.Cookie.HttpOnly = true;                          // not accessible to JS
-                options.Cookie.SameSite = SameSiteMode.Strict;          // adjust if you need cross-site posts
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +38,12 @@ namespace BPCalculator
                 app.UseExceptionHandler("/Error");
             }
 
-            app.UseStaticFiles();
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers["Permissions-Policy"] =
+                    "geolocation=(), microphone=(), camera=(), fullscreen=(self)";
+                await next();
+            });
 
             app.UseRouting();
 
