@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace BPCalculator
 {
@@ -36,6 +37,13 @@ namespace BPCalculator
             {
                 app.UseExceptionHandler("/Error");
             }
+            
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers["Permissions-Policy"] =
+                    "geolocation=(), microphone=(), camera=(), fullscreen=(self)";
+                await next();
+            });
 
             app.UseStaticFiles();
 
