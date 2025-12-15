@@ -69,5 +69,38 @@ namespace BPUnitTest
             bp.Diastolic = 100;
             Assert.IsLessThanOrEqualTo(bp.Diastolic, BloodPressure.DiastolicMax);
         }
+        [TestMethod]
+        public void TestMethod9()
+        {
+            BloodPressure bp = new BloodPressure();
+            bp.Systolic = 130;
+            bp.Diastolic = 85;
+            double expectedMAP = Math.Round((130 + 2 * 85) / 3.0, 1);
+            Assert.AreEqual(expectedMAP, bp.MeanArterialPressure);
+        }
+        [TestMethod]
+        public void TestMethod10()
+        {
+            BloodPressure bp = new BloodPressure();
+            bp.Systolic = 110;
+            bp.Diastolic = 70;
+            Assert.AreEqual("Mean Arterial Pressure is within normal range", bp.MeanArterialPressureStatus);
+        }
+        [TestMethod]
+        public void TestMethod11()
+        {
+            BloodPressure bp = new BloodPressure();
+            bp.Systolic = 160;
+            bp.Diastolic = 100;
+            Assert.AreEqual("Warning: Abnormal Mean Arterial Pressure", bp.MeanArterialPressureStatus);
+        }
+        [TestMethod]
+        public void TestMethod12()
+        {
+            BloodPressure bp = new BloodPressure();
+            bp.Systolic = 90;
+            bp.Diastolic = 60;
+            Assert.AreEqual(BPCategory.Ideal, bp.Category);
+        }
     }
 }
