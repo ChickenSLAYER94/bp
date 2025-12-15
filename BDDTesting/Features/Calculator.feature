@@ -29,3 +29,19 @@ Scenario: Identify Blood Pressure Category is PreHigh
 	And the diastolic pressure is 85
 	When the blood pressure category is determined
 	Then the category should be "PreHigh"
+
+	# scenario 5
+Scenario: Identify Blood Pressure Category is Normal
+	Given the systolic pressure is 115
+	And the diastolic pressure is 75
+	When the blood pressure category is determined
+	Then the category should be "Ideal"
+
+	# scenario 6
+Scenario: Identify Blood Pressure Category is Hypertensive Crisis
+	Given the systolic pressure is 190
+	And the diastolic pressure is 120
+	When the blood pressure category is determined
+	Then the category should be "High"
+
+	

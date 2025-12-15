@@ -22,7 +22,7 @@ export let options = {
 
 };  
 export default function() {
-  let res = http.get("https://bp-calc.azurewebsites.net/");
+  let res = http.get("https://bp-calc-personal-acc-staging.azurewebsites.net/");
 
   check(res, {
       "is status 200": (r) => r.status === 200

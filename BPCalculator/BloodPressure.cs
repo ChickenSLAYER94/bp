@@ -32,15 +32,15 @@ namespace BPCalculator
             get
                {
 
-                if (Systolic >= 141 || Diastolic >= 91)
+                if (Systolic > 140 || Diastolic > 90)
                 {
                     return BPCategory.High;
                 }
-                else if (Systolic >= 121 || Diastolic >= 81)
+                else if (Systolic > 120 || Diastolic > 80)
                 {
                     return BPCategory.PreHigh;
                 }
-                else if (Systolic < 90 || Diastolic < 60)
+                else if (Systolic < 90 && Diastolic < 60)
                 {
                     return BPCategory.Low;
                 }
@@ -48,12 +48,24 @@ namespace BPCalculator
                 {
                     return BPCategory.Ideal;
                 }
-
-
-                //// implement as part of project
-                ////throw new NotImplementedException("not implemented yet");
-                //return new BPCategory();                       // replace this
             }
         }
+        // New Feature: Mean Arterial Pressure (MAP)
+        public double MeanArterialPressure => Math.Round((Systolic + 2 * Diastolic) / 3.0, 1);
+
+        public String MeanArterialPressureStatus
+        {
+            get
+            {
+                if (MeanArterialPressure < 70 || MeanArterialPressure > 100)
+                {
+                    return "Warning: Abnormal Mean Arterial Pressure";
+                }
+                else
+                {
+                    return "Mean Arterial Pressure is within normal range";
+                }
+            }
+        }    
     }
 }

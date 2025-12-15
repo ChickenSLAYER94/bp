@@ -2,6 +2,6 @@
 <RunSettings>    
   <!-- Parameters used by selenium test during execution -->  
   <TestRunParameters>  
-    <Parameter name="azureWebAppUrl" value="https://bp-calc.azurewebsites.net/" />  
+    <Parameter name="azureWebAppUrl" value="https://bp-calc-personal-acc-staging.azurewebsites.net/" />  
   </TestRunParameters>  
 </RunSettings> 
