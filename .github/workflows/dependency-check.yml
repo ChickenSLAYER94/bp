@@ -29,6 +29,3 @@ jobs:
         with:
            name: Depcheck report
            path: ${{github.workspace}}/reports
-
-      - name: Upload Test results
-        run: ls BPCalculator/; echo "------"; ls ./BPCalculator/
