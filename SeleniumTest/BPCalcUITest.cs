@@ -31,7 +31,7 @@ namespace SeleniumTest
 
         [TestMethod]
         public void TestBPCalcUI()
-         {
+        {
             var options = new ChromeOptions();
 
             // Required for GitHub Actions (headless Linux environment)
@@ -64,7 +64,7 @@ namespace SeleniumTest
         }
         [TestMethod]
         public void TestBPCalcUI2()
-         {
+        {
             var options = new ChromeOptions();
 
             // Required for GitHub Actions (headless Linux environment)
@@ -95,5 +95,75 @@ namespace SeleniumTest
                 Assert.AreEqual("High Blood Pressure", outputTest);
             }
         }
-    }
+
+        [TestMethod]
+        public void TestBPCalcUI3()
+        {
+            var options = new ChromeOptions();
+            // Required for GitHub Actions (headless Linux environment)
+            options.AddArgument("--headless=new");
+            options.AddArgument("--no-sandbox");
+            options.AddArgument("--disable-dev-shm-usage");
+            options.AddArgument("--disable-gpu");
+            options.AddArgument("--window-size=1920,1080");
+
+            // Let Selenium auto-manage ChromeDriver (best practice in 2024+)
+            using (IWebDriver driver = new ChromeDriver(options))
+            {
+                driver.Navigate().GoToUrl(azureWebAppUrl);
+
+                var systolicInput = driver.FindElement(By.Id("BP_Systolic"));
+                var diastolicInput = driver.FindElement(By.Id("BP_Diastolic"));
+
+                systolicInput.SendKeys("85");
+                diastolicInput.SendKeys("55");
+
+                driver.FindElement(By.Id("form1")).Submit();
+
+                WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                wait.Until(d => d.FindElement(By.Id("Bp-Calc-Output")).Displayed);
+
+                var outputTest = driver.FindElement(By.Id("Bp-Calc-Output")).Text;
+
+                Assert.AreEqual("Low Blood Pressure", outputTest);
+
+            }
+        }
+
+            [TestMethod]
+            public void TestBPCalcUI4()
+            {
+                var options = new ChromeOptions();
+                // Required for GitHub Actions (headless Linux environment)
+                options.AddArgument("--headless=new");
+                options.AddArgument("--no-sandbox");
+                options.AddArgument("--disable-dev-shm-usage");
+                options.AddArgument("--disable-gpu");
+                options.AddArgument("--window-size=1920,1080");
+
+                // Let Selenium auto-manage ChromeDriver (best practice in 2024+)
+                using (IWebDriver driver = new ChromeDriver(options))
+                {
+                    driver.Navigate().GoToUrl(azureWebAppUrl);
+
+                    var systolicInput = driver.FindElement(By.Id("BP_Systolic"));
+                    var diastolicInput = driver.FindElement(By.Id("BP_Diastolic"));
+
+                    systolicInput.SendKeys("125");
+                    diastolicInput.SendKeys("78");
+
+                    driver.FindElement(By.Id("form1")).Submit();
+
+                    WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+                    wait.Until(d => d.FindElement(By.Id("Bp-Calc-Output")).Displayed);
+
+                    var outputTest = driver.FindElement(By.Id("Bp-Calc-Output")).Text;
+
+                    Assert.AreEqual("Pre-High Blood Pressure", outputTest);
+
+                }
+
+            }
+
+        }
 }
