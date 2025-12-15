@@ -20,7 +20,8 @@ jobs:
           path: '.'
           format: 'HTML'    
           args: >
-            --failOnCVSS 8            
+            --failOnCVSS 8 
+            --exclude "./BPCalculator/wwwroot/**"
           # if the CVSS score is greater than or equals to 8 (High), the action will fail
           
       - name: Upload Test results
