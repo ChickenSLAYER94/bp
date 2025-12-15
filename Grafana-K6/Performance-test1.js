@@ -1,7 +1,7 @@
 import { check, sleep } from "k6";
 import http from "k6/http";
 
-export let options = {
+export const options = {
     stages: [
         { duration: "1m", target: 35 }, // Ramp-up to 35 users over 1 minutes
         { duration: "1m", target: 35 }, // Stay at 35 users for 1 minutes
